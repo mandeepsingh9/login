@@ -10,15 +10,24 @@ const router = express.Router();
 // @access  Private
 router.get('/profile', protect, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const { email } = req.body; 
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        error: 'Email is required',
+      });
+    }
+
+    // find and delete the user by email
+    const user = await User.findOneAndDelete({ email });
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        error: 'User not found'
+        error: 'User not found',
       });
     }
-
     res.status(200).json({
       success: true,
       data: {
@@ -140,7 +149,7 @@ router.put('/password', protect, async (req, res) => {
       });
     }
 
-    // Update password
+    
     user.password = newPassword;
     await user.save();
 
