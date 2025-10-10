@@ -59,24 +59,7 @@ app.use(limiter);
 
 // CORS configuration for React Native
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-    
-    // Add your React Native development and production URLs here
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:19006', // Expo web
-      'exp://localhost:19000', // Expo development
-      // Add your production domain here
-    ];
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(null, true); // For React Native, we generally allow all origins
-    }
-  },
+  origin: '*', // sab allowed
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
